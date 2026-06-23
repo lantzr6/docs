@@ -34,9 +34,12 @@
           {
             "group": "Projects",
             "pages": [
-              "projects/project-one",
-              "projects/project-two",
-              "projects/project-three"
+              {
+                "group": "Quonetra",
+                "pages": [
+                  "quonetra-constitution"
+                ]
+              }
             ]
           },
           {
