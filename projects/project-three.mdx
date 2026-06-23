@@ -1,0 +1,93 @@
+---
+title: "API Integration Research — Notes & Findings"
+sidebarTitle: "API Integration"
+description: "Research notes and findings for evaluating third-party API integrations. Covers candidate APIs, evaluation criteria, and recommendations."
+---
+
+This page captures research notes for evaluating potential third-party API integrations. Use it to compare candidates, record findings from testing, and document the final recommendation.
+
+<Info>
+  **Status**: 🟢 Active
+
+  **Type**: Research
+
+  **Owner**: You
+</Info>
+
+## Evaluation Criteria
+
+| Criteria | Weight | Notes |
+|---|---|---|
+| Reliability & uptime | High | Must have a documented SLA of 99.9% or above |
+| Pricing | High | Needs to fit within the $500/month budget at projected usage |
+| Rate limits | Medium | Minimum 1,000 requests/minute required for peak load |
+| Documentation quality | Medium | Must have a complete reference, quickstart, and changelog |
+| SDK availability | Low | A JavaScript SDK is preferred but not a blocker |
+
+## Candidates
+
+<AccordionGroup>
+  <Accordion title="Provider A — Nexus Data API">
+    Nexus Data API is a well-established data enrichment service with a broad feature set and a strong reputation for uptime. Tested during a two-week trial using a sandbox account.
+
+    **Pros**
+    - Excellent documentation with live code examples and a Postman collection
+    - 99.95% uptime over the last 12 months (per their status page)
+    - Official JavaScript and Python SDKs, actively maintained
+    - Generous rate limits (5,000 req/min on the standard plan)
+
+    **Cons**
+    - Slightly higher per-call cost compared to Provider B at high volumes
+    - Webhook delivery can lag by 10–15 seconds under load — needs monitoring
+  </Accordion>
+
+  <Accordion title="Provider B — Streamline API">
+    Streamline API is a newer, lower-cost alternative that covers most of the required use cases. Evaluated using their free-tier plan with limited request volume.
+
+    **Pros**
+    - Lowest per-call pricing of the three candidates
+    - Fast response times — median latency under 80ms in testing
+    - Simple, clean REST API that was easy to prototype with
+
+    **Cons**
+    - No official SDK; REST only, which adds integration overhead
+    - Documentation is incomplete — several endpoints are undocumented or reference outdated parameters
+    - Company is early-stage; long-term support is uncertain
+  </Accordion>
+
+  <Accordion title="Provider C — Orbis Connect">
+    Orbis Connect is an enterprise-focused integration platform with a rich feature set, but it is significantly over-engineered for current requirements.
+
+    **Pros**
+    - Extremely robust with advanced filtering and transformation capabilities
+    - Dedicated support channel with a 4-hour SLA on the business plan
+    - SOC 2 Type II certified — useful if compliance requirements grow
+
+    **Cons**
+    - Pricing starts at $1,200/month — well above budget
+    - Integration complexity is high; estimated 3–4 weeks of engineering time to onboard
+    - Many advanced features are outside the current project scope
+  </Accordion>
+</AccordionGroup>
+
+## Recommendation
+
+**Provider A (Nexus Data API)** is the recommended choice. It is the strongest all-round option: documentation quality and SDK support will reduce integration time, the uptime track record is solid, and rate limits comfortably exceed projected peak load. While the per-call cost is marginally higher than Provider B at scale, the reduction in engineering overhead and the lower risk profile more than justify the difference. Provider B's incomplete documentation and uncertain longevity make it a poor fit for a production dependency, and Provider C is out of scope on budget alone.
+
+<Tip>
+  Revisit this decision in 6 months. If usage grows significantly, re-evaluate Provider B's pricing advantage at high volume — and check whether their documentation coverage has improved.
+</Tip>
+
+## Test Notes
+
+The following sample request was used during evaluation to test authentication, response shape, and latency for a standard data lookup call.
+
+```bash
+curl --request GET \
+  --url "https://api.nexusdata.example.com/v1/records/lookup?query=acme-corp&limit=5" \
+  --header "Authorization: Bearer YOUR_API_KEY" \
+  --header "Accept: application/json" \
+  --header "X-Request-ID: test-run-001"
+```
+
+Response times were measured at p50 = 95ms and p99 = 310ms across 200 test calls, all returning well-formed JSON with consistent field naming. No errors were encountered during the trial period.

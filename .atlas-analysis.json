@@ -1,24 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "name": "Project Notes",
+  "projectType": "general",
+  "projectName": "Project Notes",
+  "projectDescription": "A personal knowledge base for capturing notes, ideas, and progress across multiple projects.",
   "theme": "willow",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "primary": {
-      "type": "button",
-      "label": "New Note",
-      "href": "/projects/project-one"
-    }
-  },
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -70,7 +57,13 @@
       }
     ]
   },
-  "footer": {
-    "socials": {}
-  }
+  "keyFeatures": [
+    "Structured project notes with consistent templates",
+    "Meeting and research note templates",
+    "Project status tracking",
+    "Resource and link organization",
+    "Ideas and archive sections",
+    "Glossary for project-specific terminology"
+  ],
+  "publicApiSurface": []
 }
